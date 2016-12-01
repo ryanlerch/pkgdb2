@@ -25,6 +25,9 @@ UI namespace for the Flask application.
 
 import flask
 
+import urllib
+import hashlib
+
 import pkgdb2.lib as pkgdblib
 from pkgdb2 import (APP, SESSION, FAS, is_pkgdb_admin, __version__,
                     is_safe_url, is_authenticated)
@@ -72,6 +75,13 @@ def avatar(packager, size=64):
         return '<img class="avatar circle" src="%s"/>' % (
             pkgdblib.utils.avatar_url(packager, size)
         )
+
+@APP.template_filter('avatar_from_email')
+def avatar_from_email(email, size=64, default='retro'):
+    """ Template filter to produce the libravatar from an email address """
+    query = urllib.urlencode({'s': size, 'd': default})
+    hashhex = hashlib.sha256(email).hexdigest()
+    return "https://seccdn.libravatar.org/avatar/%s?%s" % (hashhex, query)
 
 
 @UI.context_processor

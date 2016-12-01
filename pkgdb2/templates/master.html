@@ -7,9 +7,9 @@
     <link rel="shortcut icon" type="image/vnd.microsoft.icon"
         href="//fedoraproject.org/static/images/favicon.ico"/>
     <link rel="stylesheet" type="text/css" media="screen"
-        href="{{ url_for('static', filename='koji.css') }}"/>
-    <link rel="stylesheet" type="text/css" media="screen"
         href="{{ url_for('static', filename='pkgdb.css') }}"/>
+      <link href="https://apps.fedoraproject.org/global/fedora-bootstrap-1.0.1/fedora-bootstrap.css"
+            type="text/css" rel="stylesheet" />
     <link type="text/css" rel="stylesheet"
         href="{{ url_for('static',
             filename='jquery-ui-1.9.2.custom.css')}}" />
@@ -27,35 +27,70 @@
         prefix="doap: http://usefulinc.com/ns/doap#"
   >
 
-    <div id="wrap">
-      <div id="innerwrap">
 
         <!-- HEADER -->
-        <div id="header">
-          <img src="{{ url_for('static', filename='packagedb-logo.png') }}" alt="PackageDB Logo" id="kojiLogo"/>
-          <form action="{{url_for('ui_ns.search')}}" id="headerSearch">
-            <select name="type">
-              <option value=""
-                {% if select=='packages' %} selected {% endif %}>
-                  Packages</option>
-              <option value="packager"
-                {% if select=='packagers' %} selected {% endif %}>
-                  Packagers</option>
-              <option value="orphaned"
-              {% if select=='orphaned' %} selected {% endif %}>
-                  Orphaned</option>
-              <option value="retired"
-              {% if select=='retired' %} selected {% endif %}>
-                  Retired</option>
-              {% for ns in namespaces %}
-              <option value="{{ ns }}"
-              {% if select==ns %} selected {% endif %}>
-                  {{ ns }}</option>
-              {% endfor %}
-            </select>
-            <input type="text" name="term" value="{{ motif if motif else '' }}"/>
-            <input type="submit" value="Search"/>
-          </form>
+        <div class="masthead">
+          <div class="container">
+            <div class="row">
+             <div class="col-sm-3">
+               <a href="/">
+                 <img src="{{ url_for('static', filename='packagedb-logo.png') }}"
+                   alt="Elections Logo" height="40px"/>
+               </a>
+             </div>
+             <div class="col-sm-9">
+               <div class="row">
+                 <form action="{{url_for('ui_ns.search')}}" id="headerSearch">
+                   <select name="type">
+                     <option value=""
+                       {% if select=='packages' %} selected {% endif %}>
+                         Packages</option>
+                     <option value="packager"
+                       {% if select=='packagers' %} selected {% endif %}>
+                         Packagers</option>
+                     <option value="orphaned"
+                     {% if select=='orphaned' %} selected {% endif %}>
+                         Orphaned</option>
+                     <option value="retired"
+                     {% if select=='retired' %} selected {% endif %}>
+                         Retired</option>
+                     {% for ns in namespaces %}
+                     <option value="{{ ns }}"
+                     {% if select==ns %} selected {% endif %}>
+                         {{ ns }}</option>
+                     {% endfor %}
+                   </select>
+                   <input type="text" name="term" value="{{ motif if motif else '' }}"/>
+                   <input type="submit" value="Search"/>
+                 </form>
+               <nav class="navbar navbar-light p-t-0 p-b-0">
+                   <div class="container">
+                     <ul class="nav navbar-nav nav-underline pull-xs-right">
+
+                       {% if g.fas_user %}
+                        <li class="nav-item dropdown p-l-1">
+                          <a class="nav-link dropdown-toggle" data-toggle="dropdown"
+                             href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                            <img src="{{ g.fas_user.email | avatar_from_email(24) }}"/>
+                          </a>
+                          <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="{{ url_for('ui_ns.logout') }}?next={{request.url}}">log out</a>
+                          </div>
+                        </li>
+                        {% else %}
+                        <li class="nav-item p-l-1">
+                          <a href="{{ url_for('ui_ns.login') }}?next={{request.url}}">Log In</a>
+                        </li>
+                        {% endif %}
+                     </ul>
+                   </div>
+                 </nav>
+
+               </div>
+             </div>
+           </div>
+
+          </div>
         </div><!-- end header -->
 
         <!-- MAIN NAVIGATION -->
@@ -126,13 +161,14 @@
           -- <a href="{{ url_for('api_ns.api') }}">API</a>
         </p>
 
-      </div>
-    </div>
 
     {% block jscripts %}
     <script type="text/javascript"
         src="{{ url_for('static',
             filename='jquery-1.10.2.js') }}">
+    </script>
+    <script type="text/javascript"
+        src="https://apps.fedoraproject.org/global/fedora-bootstrap-1.0.1/fedora-bootstrap.js">
     </script>
     <script type="text/javascript"
         src="{{ url_for('static',
