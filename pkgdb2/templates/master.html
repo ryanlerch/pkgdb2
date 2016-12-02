@@ -107,41 +107,35 @@
             <ul class="nav nav-tabs nav-small">
 
               <li class="nav-item">
-                <a class="nav-link" href="{{url_for('ui_ns.index')}}">
+                <a class="nav-link {%if tag == 'index'%}active{%endif%}"
+                   href="{{url_for('ui_ns.index')}}">
                     <span>Home</span>
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{{url_for('ui_ns.list_packages')}}">
+                <a class="nav-link {%if tag == 'packages'%}active{%endif%}"
+                   href="{{url_for('ui_ns.list_packages')}}">
                     <span>Packages</span>
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{{url_for('ui_ns.list_packagers')}}">
+                <a class="nav-link {%if tag == 'packagers'%}active{%endif%}"
+                    href="{{url_for('ui_ns.list_packagers')}}">
                     <span>Packagers</span>
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{{url_for('ui_ns.list_collections')}}">
+                <a class="nav-link {%if tag == 'collections'%}active{%endif%}"
+                   href="{{url_for('ui_ns.list_collections')}}">
                     <span>Collections</span>
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="{{url_for('ui_ns.stats')}}">
+                <a class="nav-link {%if tag == 'stats'%}active{%endif%}"
+                   href="{{url_for('ui_ns.stats')}}">
                     <span>Stats</span>
                 </a>
               </li>
-              {{select}}
-                <li class="nav-item">
-                    <a class="active nav-link" href="/pagure/issues">
-                        <span class="oi hidden-md-up" data-glyph="warning"></span>
-                        <span class="hidden-sm-down">Issues&nbsp;</span>
-                        <span class="label label-default label-pill hidden-sm-down">
-                          166
-                        </span>
-                    </a>
-                </li>
-
               </ul>
             </div>
         </div>

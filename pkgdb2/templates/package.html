@@ -2,7 +2,7 @@
 
 {% block title %} {{ package.namespace }}/{{ package.name }} | PkgDB {% endblock %}
 
-{%block tag %}packages{% endblock %}
+{% set tag = 'packages' %}
 
 {% block header %}
 <link rel="stylesheet" type="text/css" media="screen"

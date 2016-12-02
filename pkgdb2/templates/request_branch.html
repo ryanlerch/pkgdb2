@@ -1,7 +1,7 @@
 {% if full %}
   {% extends "master.html" %}
   {% block title %} Select branches | PkgDB {% endblock %}
-  {%block tag %}packages{% endblock %}
+  {% set tag = 'packages' %}
 {% endif %}
 
 {% from "_formhelpers.html" import render_field_in_row %}

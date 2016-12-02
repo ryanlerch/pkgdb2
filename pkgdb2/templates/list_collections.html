@@ -2,7 +2,7 @@
 
 {% block title %} {{ super() }} {% endblock %}
 
-{%block tag %}collections{% endblock %}
+{% set tag = 'collections' %}
 
 {% if is_admin %}
 {% set options = True %}
