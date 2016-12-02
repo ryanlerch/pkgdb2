@@ -8,7 +8,7 @@
         href="//fedoraproject.org/static/images/favicon.ico"/>
     <link rel="stylesheet" type="text/css" media="screen"
         href="{{ url_for('static', filename='pkgdb.css') }}"/>
-      <link href="https://apps.fedoraproject.org/global/fedora-bootstrap-1.0.1/fedora-bootstrap.css"
+      <link href="https://apps.fedoraproject.org/global/fedora-bootstrap-1.0.2/fedora-bootstrap.css"
             type="text/css" rel="stylesheet" />
     <link type="text/css" rel="stylesheet"
         href="{{ url_for('static',
@@ -40,45 +40,31 @@
              </div>
              <div class="col-sm-9">
                <div class="row">
-                 <form action="{{url_for('ui_ns.search')}}" id="headerSearch">
-                   <select name="type">
-                     <option value=""
-                       {% if select=='packages' %} selected {% endif %}>
-                         Packages</option>
-                     <option value="packager"
-                       {% if select=='packagers' %} selected {% endif %}>
-                         Packagers</option>
-                     <option value="orphaned"
-                     {% if select=='orphaned' %} selected {% endif %}>
-                         Orphaned</option>
-                     <option value="retired"
-                     {% if select=='retired' %} selected {% endif %}>
-                         Retired</option>
-                     {% for ns in namespaces %}
-                     <option value="{{ ns }}"
-                     {% if select==ns %} selected {% endif %}>
-                         {{ ns }}</option>
-                     {% endfor %}
-                   </select>
-                   <input type="text" name="term" value="{{ motif if motif else '' }}"/>
-                   <input type="submit" value="Search"/>
-                 </form>
-               <nav class="navbar navbar-light p-t-0 p-b-0">
+                 <nav class="navbar navbar-light pt-0 pb-0">
                    <div class="container">
-                     <ul class="nav navbar-nav nav-underline pull-xs-right">
+                     <ul class="nav navbar-nav nav-underline float-xs-right">
 
                        {% if g.fas_user %}
-                        <li class="nav-item dropdown p-l-1">
+                        <li class="nav-item dropdown pl-1">
                           <a class="nav-link dropdown-toggle" data-toggle="dropdown"
                              href="#" role="button" aria-haspopup="true" aria-expanded="false">
                             <img src="{{ g.fas_user.email | avatar_from_email(24) }}"/>
                           </a>
                           <div class="dropdown-menu dropdown-menu-right">
+                            <div class="dropdown-header"><strong>{{ g.fas_user.username }}</strong></div>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{url_for('ui_ns.packager_info', packager=g.fas_user.username)}}">my profile</a>
+                            <a class="dropdown-item" href="{{url_for('ui_ns.pending_acl')}}">Pending ACLs</a>
+                            <a class="dropdown-item" href="{{ url_for('ui_ns.packager_requests', packager=g.fas_user.username) }}">My Requests</a>
+                            <div class="dropdown-divider"></div>
+                            {% if is_admin %}
+                            <a class="dropdown-item" href="{{url_for('ui_ns.admin')}}">Admin</a>
+                            {% endif %}
                             <a class="dropdown-item" href="{{ url_for('ui_ns.logout') }}?next={{request.url}}">log out</a>
                           </div>
                         </li>
                         {% else %}
-                        <li class="nav-item p-l-1">
+                        <li class="nav-item pl-1">
                           <a href="{{ url_for('ui_ns.login') }}?next={{request.url}}">Log In</a>
                         </li>
                         {% endif %}
@@ -92,40 +78,76 @@
 
           </div>
         </div><!-- end header -->
+        <div class="subheader">
+          <div class="container">
+            <form action="{{url_for('ui_ns.search')}}" id="headerSearch">
+              <select name="type">
+                <option value=""
+                  {% if select=='packages' %} selected {% endif %}>
+                    Packages</option>
+                <option value="packager"
+                  {% if select=='packagers' %} selected {% endif %}>
+                    Packagers</option>
+                <option value="orphaned"
+                {% if select=='orphaned' %} selected {% endif %}>
+                    Orphaned</option>
+                <option value="retired"
+                {% if select=='retired' %} selected {% endif %}>
+                    Retired</option>
+                {% for ns in namespaces %}
+                <option value="{{ ns }}"
+                {% if select==ns %} selected {% endif %}>
+                    {{ ns }}</option>
+                {% endfor %}
+              </select>
+              <input type="text" name="term" value="{{ motif if motif else '' }}"/>
+              <input type="submit" value="Search"/>
+            </form>
 
-        <!-- MAIN NAVIGATION -->
-        <div id="mainNav">
-          <h4 class="hide">Main Site Links:</h4>
-          <ul>
-            <li id="indexTab"><a href="{{url_for('ui_ns.index')}}">Home</a></li>
-            <li id="packagesTab"><a href="{{url_for('ui_ns.list_packages')}}">Packages</a></li>
-            <li id="packagersTab"><a href="{{url_for('ui_ns.list_packagers')}}">Packagers</a></li>
-            <li id="collectionsTab"><a href="{{url_for('ui_ns.list_collections')}}">Collections</a></li>
-            <li id="statsTab"><a href="{{url_for('ui_ns.stats')}}">Stats</a></li>
-            {% if g.fas_user %}
-            <li id="pendingAclTab"><a href="{{url_for('ui_ns.pending_acl')}}">Pending ACLs</a></li>
-            <li id="myRequestsTab">
-                <a href="{{ url_for('ui_ns.packager_requests', packager=g.fas_user.username) }}">My Requests</a>
-            </li>
-            {% endif %}
-            {% if is_admin %}
-            <li id="adminTab"><a href="{{url_for('ui_ns.admin')}}">Admin</a></li>
-            {% endif %}
-          </ul>
-        </div><!-- end mainNav -->
+            <ul class="nav nav-tabs nav-small">
 
-        <span id="loginInfo">
-          {% if g.fas_user %}
-            <span class="text">logged in as </span>
-            <a href="{{url_for('ui_ns.packager_info', packager=g.fas_user.username)}}">{{ g.fas_user.username }}</a> |
-            <a href="{{ url_for('ui_ns.logout') }}?next={{request.url}}">log out</a>
-          {% else %}
-        <a href="{{ url_for('ui_ns.login') }}?next={{request.url}}">login</a>
-          {% endif %}
-        </span>
+              <li class="nav-item">
+                <a class="nav-link" href="{{url_for('ui_ns.index')}}">
+                    <span>Home</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{url_for('ui_ns.list_packages')}}">
+                    <span>Packages</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{url_for('ui_ns.list_packagers')}}">
+                    <span>Packagers</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{url_for('ui_ns.list_collections')}}">
+                    <span>Collections</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{url_for('ui_ns.stats')}}">
+                    <span>Stats</span>
+                </a>
+              </li>
+              {{select}}
+                <li class="nav-item">
+                    <a class="active nav-link" href="/pagure/issues">
+                        <span class="oi hidden-md-up" data-glyph="warning"></span>
+                        <span class="hidden-sm-down">Issues&nbsp;</span>
+                        <span class="label label-default label-pill hidden-sm-down">
+                          166
+                        </span>
+                    </a>
+                </li>
 
-        <div id="content">
+              </ul>
+            </div>
+        </div>
 
+        <div class="bodycontent py-1">
+          <div class="container">
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if category, messages %}
                 <ul id="flashes">
@@ -137,7 +159,7 @@
             {% endwith %}
 
             {% block content %}{% endblock %}
-
+          </div>
         </div>
 
         {% if options is defined %}
@@ -168,7 +190,7 @@
             filename='jquery-1.10.2.js') }}">
     </script>
     <script type="text/javascript"
-        src="https://apps.fedoraproject.org/global/fedora-bootstrap-1.0.1/fedora-bootstrap.js">
+        src="https://apps.fedoraproject.org/global/fedora-bootstrap-1.0.2/fedora-bootstrap.js">
     </script>
     <script type="text/javascript"
         src="{{ url_for('static',
