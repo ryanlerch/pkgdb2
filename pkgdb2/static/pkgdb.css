@@ -6,3 +6,68 @@
 .nav-tabs{
   border-bottom: 0!important;
 }
+
+/** Web App Styles **/
+/* Links to other web apps */
+
+#actions {
+  line-height: 1;
+  list-style: none;
+  margin: 1ex 0!important;
+  padding: 1ex 0ex 0ex 0ex;
+}
+
+#actions li {
+    display: inline;
+    margin-right: 1ex;
+}
+
+a.bodhi {
+  padding-left: 20px;
+  background: url(https://fedoraproject.org/static/images/icons/fedora-infra-icon_bodhi.png) 0 50% no-repeat;
+}
+
+a.koji {
+  padding-left: 20px;
+  background: url(https://fedoraproject.org/static/images/icons/fedora-infra-icon_koji.png) 0 50% no-repeat;
+}
+
+a.bugz {
+  padding-left: 20px;
+  background: url(https://fedoraproject.org/static/images/icons/fedora-infra-icon_bugzilla.png) 0 50% no-repeat;
+}
+
+a.pkg_review {
+  padding-left: 20px;
+  background: url(fedora-infra-icon_review.png) 0 50% no-repeat;
+}
+
+a.koschei {
+  padding-left: 20px;
+  background: url(icon_koschei.png) 0 50% no-repeat;
+}
+
+a.pkgdb {
+  padding-left: 20px;
+  background: url(https://fedoraproject.org/static/mages/icons/fedora-infra-icon_pkgdb.png) 0 50% no-repeat;
+}
+
+a.cvs {
+  padding-left: 20px;
+  background: url(https://fedoraproject.org/static/images/icons/fedora-infra-icon_source-control.png) 0 50% no-repeat;
+}
+
+a.fas {
+  padding-left: 20px;
+  background: url(https://fedoraproject.org/w/uploads/a/ac/Infra-icon_fas.png) 0 50% no-repeat;
+}
+
+a.pending {
+  padding-left: 20px;
+  background: url(Awaiting%20Review.png) 0 50% no-repeat;
+}
+
+a.community {
+  padding-left: 20px;
+  background: url(https://apps.fedoraproject.org/tagger/images/favicons/16_beefy.png) 0 50% no-repeat;
+}

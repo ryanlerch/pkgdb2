@@ -4,11 +4,6 @@
 
 {% set tag = 'packages' %}
 
-{% block header %}
-<link rel="stylesheet" type="text/css" media="screen"
-    href="{{ url_for('static', filename='toggle.css') }}"/>
-{% endblock %}
-
 {% set options = True %}
 {% block options_title %}Package Status ({{ package.namespace }}){% endblock %}
 {%block options %}
@@ -128,7 +123,7 @@ confusing what the difference is between that status an the per-branch status)
         <td></td>
     </tr>
         <td colspan="2" align="center" id="koschei_block">
-            <span class="container" {% if g.fas_user
+            <span class="" {% if g.fas_user
                 %}title="Toggle Koschei integration"{%
                 else %}title="Login to change the Koschei integration status"{% endif %}>
               <label class="switch">
